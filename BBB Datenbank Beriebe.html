@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betriebskontakte</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+             display: flex;
+            justify-content: flex-start; /* Align to the start */
+            align-items: center; /* Vertically center align */
+        }
+
+        .filter-container label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+
+         .filter-container select {
+             padding: 8px 10px;
+             border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+
+        table {
+             width: 100%;
+            border-collapse: collapse;
+             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+         th, td {
+             padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+         }
+
+
+        th {
+           background-color: #007bff;
+           color: white;
+           font-weight: bold;
+           text-transform: uppercase;
+         }
+
+        tr:nth-child(even) {
+           background-color: #f2f2f2;
+        }
+
+        tr:hover {
+          background-color: #e0f7fa;
+        }
+
+
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="filter-container">
+        <label for="branche-filter">Branche filtern:</label>
+        <select id="branche-filter">
+            <option value="alle">Alle</option>
+            <option value="Metall">Metall</option>
+             <option value="Elektro">Elektro</option>
+        </select>
+    </div>
+
+    <table id="kontakte-tabelle">
+        <thead>
+            <tr>
+              <th>ID</th>
+                <th>Firmenname</th>
+                <th>Straße</th>
+                <th>PLZ</th>
+                <th>Ort</th>
+                <th>Ansprechpartner</th>
+                <th>Telefon</th>
+                <th>Branche</th>
+                <th>Arbeitsbereiche</th>
+                <th>Letzter Prakt</th>
+                <th>Bemerkung</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+          const combinedData = [
+           //Hier deine Metall Daten
+            {
+                "ID": "1",
+                "Firmenname": "BLG Logistik / BLG Autotec GmbH u. Co. KG",
+                "Straße ": "Senator Bortscheller Str. 1",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "2",
+                "Firmenname": "Bolte & Co.ED.",
+                "Straße ": "Fischkai 49",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "0471 72333",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "Produktionshalle\r\n\r\nFertigungsleiter Obermonteur\r\nE-Mail: o.boehm@mwb-elektrotechnik.de"
+            },
+            {
+                "ID": "3",
+                "Firmenname": "Brandes Metallbau GmbH",
+                "Straße ": "Hörn 2",
+                "PLZ": "27607",
+                "Ort": "Langen",
+                "Ansprechpartner": "",
+                "Telefon": "04743 5704",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "4",
+                "Firmenname": "Bredo Dry Docks GmbH",
+                "Straße ": "Dockstraße 19",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "Ergüven, Umut",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "5",
+                "Firmenname": "BVT Brenn- und Verformtechnik Bremen GmbH",
+                "Straße ": "Kleiner Westring 19",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "6",
+                "Firmenname": "Container-Service Friedrich Tiemann GmbH & Co. KG",
+                "Straße ": "Grauwallring 13",
+                "PLZ": "27580",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "7",
+                "Firmenname": "Demelt Metallbau GmbH",
+                "Straße ": "An der Autobahn 9",
+                "PLZ": "27607",
+                "Ort": "Geestland",
+                "Ansprechpartner": "",
+                "Telefon": "04743 5059",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "Einsatzort:\r\nFa. Frosta\r\nAm Lunedeich 116\r\n27572 Bremerhaven"
+            },
+            {
+                "ID": "8",
+                "Firmenname": "CM Offshore",
+                "Straße ": "Barkhausenstraße 60",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Staats",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "hn.staats@cm-offshore.de"
+            },
+            {
+                "ID": "9",
+                "Firmenname": "FBG Fischereihafen-Betriebsgesellschaft",
+                "Straße ": "Langstraße 1",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "10",
+                "Firmenname": "Bredo Werft",
+                "Straße ": "Barkhausenstraße 60",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Bredo (Rönner Gruppe)",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "s.meyer@weserwind.de"
+            },
+            {
+                "ID": "11",
+                "Firmenname": "Heise Schiffsreparatur",
+                "Straße ": "Hoebelstraße 55",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "12",
+                "Firmenname": "Huth Metall + Zaunbau GmbH",
+                "Straße ": "Am Lunedeich 161",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Saueressig",
+                "Telefon": "",
+                "Branche": "Adolf, Ricardo",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "13",
+                "Firmenname": "Kluge & Neumann GmbH",
+                "Straße ": "Im Gewerbepark 2",
+                "PLZ": "27619",
+                "Ort": "Schiffdorf",
+                "Ansprechpartner": "Herr Kluge",
+                "Telefon": "04706-9308-13",
+                "Branche": "Amini, Mohammad",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "14",
+                "Firmenname": "Künzel Schlosserei und Automatikservice",
+                "Straße ": "Lipperkamp 50",
+                "PLZ": "27580",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "0471 3020200",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "15",
+                "Firmenname": "Lloyd Werft Bremerhaven",
+                "Straße ": "Brückenstraße 25",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "akt. Insolvenz",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "16",
+                "Firmenname": "Metall- und Holzbau Andreas Carstens GmbH & Co.KG",
+                "Straße ": "Großer Westring 11",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "17",
+                "Firmenname": "Metallbau Lehe GmbH",
+                "Straße ": "Auf dem Reuterhamm 11",
+                "PLZ": "27576",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "0471 483899-0",
+                "Branche": "Yilmaz, Dogus. Bis Prüfung 22 keine weiteren",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "18",
+                "Firmenname": "Metallbau Modersitzki GmbH",
+                "Straße ": "Robert-Bosch Straße 14",
+                "PLZ": "27612",
+                "Ort": "Loxstedt",
+                "Ansprechpartner": "",
+                "Telefon": "04744 820279",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "19",
+                "Firmenname": "Raguse + Voss Metallgießerei GmbH",
+                "Straße ": "Grauwallring 24",
+                "PLZ": "27580",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Veseli",
+                "Telefon": "0471 9820913",
+                "Branche": "Hamdo, Hasan. Kreie nicht angetreten",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "20",
+                "Firmenname": "S.P.W.  Sail Propeller- und Wellenbau",
+                "Straße ": "Westkai 58",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "21",
+                "Firmenname": "Scan Turbo Handels und Service GmbH",
+                "Straße ": "Kleiner Westring 15",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "22",
+                "Firmenname": "Seitz Metallbau",
+                "Straße ": "Wiesenstrasse 6a",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Inh. Reinhard Wetjen",
+                "Telefon": "0471 22595",
+                "Branche": "Gök, Ismail",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "23",
+                "Firmenname": "Stadttheater Bremerhaven",
+                "Straße ": "Am Alten Hafen 25",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Prinz",
+                "Telefon": "0471 48206419",
+                "Branche": "VT 20.01.21 Hamdo, Hasan",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "24",
+                "Firmenname": "Stahlbau Nord GmbH",
+                "Straße ": "Neufundlandstraße 2",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "25",
+                "Firmenname": "Steelwind Nordenham GmbH",
+                "Straße ": "Blexer Reede 2",
+                "PLZ": "26594",
+                "Ort": "Nordenham",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "26",
+                "Firmenname": "Symex GmbH & Co. KG",
+                "Straße ": "Lengstraße 10",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "hr@powerwind.de"
+            },
+            {
+                "ID": "27",
+                "Firmenname": "Unterweser Stahl- und Maschinenbau",
+                "Straße ": "Am Lunedeich 143",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "28",
+                "Firmenname": "USM-Nord Unterweser Schiff- und Maschinenbau GmbH",
+                "Straße ": "Lohmannstr. 62",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Riedel",
+                "Telefon": "",
+                "Branche": "Bis 03/22 keine weiteren",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "29",
+                "Firmenname": "J.H.K Anlagenbau",
+                "Straße ": "Labradorstraße 5",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven"
+            },
+            {
+                "ID": "30",
+                "Firmenname": "Enercon Service GmbH",
+                "Straße ": "Dorumer Str. 20",
+                "PLZ": "26607",
+                "Ort": "Aurich",
+                "Ansprechpartner": "Ringe Torben",
+                "Telefon": "15162424965"
+            },
+            {
+                "ID": "1",
+                "Firmenname": "BLG Logistik / BLG Autotec GmbH u. Co. KG",
+                "Straße ": "Senator Bortscheller Str. 1",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "2",
+                "Firmenname": "Bolte & Co.ED.",
+                "Straße ": "Fischkai 49",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "0471 72333",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "Produktionshalle\r\n\r\nFertigungsleiter Obermonteur\r\nE-Mail: o.boehm@mwb-elektrotechnik.de"
+            },
+            {
+                "ID": "3",
+                "Firmenname": "Brandes Metallbau GmbH",
+                "Straße ": "Hörn 2",
+                "PLZ": "27607",
+                "Ort": "Langen",
+                "Ansprechpartner": "",
+                "Telefon": "04743 5704",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "4",
+                "Firmenname": "Bredo Dry Docks GmbH",
+                "Straße ": "Dockstraße 19",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "Ergüven, Umut",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "5",
+                "Firmenname": "BVT Brenn- und Verformtechnik Bremen GmbH",
+                "Straße ": "Kleiner Westring 19",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "6",
+                "Firmenname": "Container-Service Friedrich Tiemann GmbH & Co. KG",
+                "Straße ": "Grauwallring 13",
+                "PLZ": "27580",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "7",
+                "Firmenname": "Demelt Metallbau GmbH",
+                "Straße ": "An der Autobahn 9",
+                "PLZ": "27607",
+                "Ort": "Geestland",
+                "Ansprechpartner": "",
+                "Telefon": "04743 5059",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "Einsatzort:\r\nFa. Frosta\r\nAm Lunedeich 116\r\n27572 Bremerhaven"
+            },
+            {
+                "ID": "8",
+                "Firmenname": "CM Offshore",
+                "Straße ": "Barkhausenstraße 60",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Staats",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "hn.staats@cm-offshore.de"
+            },
+            {
+                "ID": "9",
+                "Firmenname": "FBG Fischereihafen-Betriebsgesellschaft",
+                "Straße ": "Langstraße 1",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "10",
+                "Firmenname": "Bredo Werft",
+                "Straße ": "Barkhausenstraße 60",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Bredo (Rönner Gruppe)",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "s.meyer@weserwind.de"
+            },
+            {
+                "ID": "11",
+                "Firmenname": "Heise Schiffsreparatur",
+                "Straße ": "Hoebelstraße 55",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "12",
+                "Firmenname": "Huth Metall + Zaunbau GmbH",
+                "Straße ": "Am Lunedeich 161",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Saueressig",
+                "Telefon": "",
+                "Branche": "Adolf, Ricardo",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "13",
+                "Firmenname": "Kluge & Neumann GmbH",
+                "Straße ": "Im Gewerbepark 2",
+                "PLZ": "27619",
+                "Ort": "Schiffdorf",
+                "Ansprechpartner": "Herr Kluge",
+                "Telefon": "04706-9308-13",
+                "Branche": "Amini, Mohammad",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "14",
+                "Firmenname": "Künzel Schlosserei und Automatikservice",
+                "Straße ": "Lipperkamp 50",
+                "PLZ": "27580",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "0471 3020200",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "15",
+                "Firmenname": "Lloyd Werft Bremerhaven",
+                "Straße ": "Brückenstraße 25",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "akt. Insolvenz",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "16",
+                "Firmenname": "Metall- und Holzbau Andreas Carstens GmbH & Co.KG",
+                "Straße ": "Großer Westring 11",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "17",
+                "Firmenname": "Metallbau Lehe GmbH",
+                "Straße ": "Auf dem Reuterhamm 11",
+                "PLZ": "27576",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "0471 483899-0",
+                "Branche": "Yilmaz, Dogus. Bis Prüfung 22 keine weiteren",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "18",
+                "Firmenname": "Metallbau Modersitzki GmbH",
+                "Straße ": "Robert-Bosch Straße 14",
+                "PLZ": "27612",
+                "Ort": "Loxstedt",
+                "Ansprechpartner": "",
+                "Telefon": "04744 820279",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "19",
+                "Firmenname": "Raguse + Voss Metallgießerei GmbH",
+                "Straße ": "Grauwallring 24",
+                "PLZ": "27580",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Veseli",
+                "Telefon": "0471 9820913",
+                "Branche": "Hamdo, Hasan. Kreie nicht angetreten",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "20",
+                "Firmenname": "S.P.W.  Sail Propeller- und Wellenbau",
+                "Straße ": "Westkai 58",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "21",
+                "Firmenname": "Scan Turbo Handels und Service GmbH",
+                "Straße ": "Kleiner Westring 15",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "22",
+                "Firmenname": "Seitz Metallbau",
+                "Straße ": "Wiesenstrasse 6a",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Inh. Reinhard Wetjen",
+                "Telefon": "0471 22595",
+                "Branche": "Gök, Ismail",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "23",
+                "Firmenname": "Stadttheater Bremerhaven",
+                "Straße ": "Am Alten Hafen 25",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Prinz",
+                "Telefon": "0471 48206419",
+                "Branche": "VT 20.01.21 Hamdo, Hasan",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "24",
+                "Firmenname": "Stahlbau Nord GmbH",
+                "Straße ": "Neufundlandstraße 2",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "25",
+                "Firmenname": "Steelwind Nordenham GmbH",
+                "Straße ": "Blexer Reede 2",
+                "PLZ": "26594",
+                "Ort": "Nordenham",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "26",
+                "Firmenname": "Symex GmbH & Co. KG",
+                "Straße ": "Lengstraße 10",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": "hr@powerwind.de"
+            },
+            {
+                "ID": "27",
+                "Firmenname": "Unterweser Stahl- und Maschinenbau",
+                "Straße ": "Am Lunedeich 143",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "",
+                "Telefon": "",
+                "Branche": "",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "28",
+                "Firmenname": "USM-Nord Unterweser Schiff- und Maschinenbau GmbH",
+                "Straße ": "Lohmannstr. 62",
+                "PLZ": "27568",
+                "Ort": "Bremerhaven",
+                "Ansprechpartner": "Herr Riedel",
+                "Telefon": "",
+                "Branche": "Bis 03/22 keine weiteren",
+                "Arbeitsbereiche": "Metall",
+                "Letzter Prakt": "",
+                "Bemerkung": ""
+            },
+            {
+                "ID": "29",
+                "Firmenname": "J.H.K Anlagenbau",
+                "Straße ": "Labradorstraße 5",
+                "PLZ": "27572",
+                "Ort": "Bremerhaven"
+            },
+            {
+                "ID": "30",
+                "Firmenname": "Enercon Service GmbH",
+                "Straße ": "Dorumer Str. 20",
+                "PLZ": "26607",
+                "Ort": "Aurich",
+                "Ansprechpartner": "Ringe Torben",
+                "Telefon": "15162424965"
+            },
+            {
+                  "ID": "1",
+                  "Firmenname": "Schmidt und Koch GmbH",
+                  "Straße ": "Stresemannstr. 120-122",
+                  "PLZ": "27576",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Frank",
+                  "Telefon": "0471 5940",
+                  "Beruf": "Kfz-Mechatroniker",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "2",
+                  "Firmenname": "Verischerungsbüro Torsten Benecken",
+                  "Straße ": "Lange Straße 109",
+                  "PLZ": "27580",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Benecken",
+                  "Telefon": "0471 3912666",
+                  "Beruf": "Kaufleute für Büromanagement ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "3",
+                  "Firmenname": "F. Fischer Autohaus KG",
+                  "Straße ": "Stresemannstraße 43",
+                  "PLZ": "27570",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Goebel",
+                  "Telefon": "0471 3099800",
+                  "Beruf": "Kfz-Mechatronikerin",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "4",
+                  "Firmenname": "POCO Bremerhaven",
+                  "Straße ": "Carsten-Börger-Str. 1",
+                  "PLZ": "27572",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Frau Pracher",
+                  "Telefon": "0471 8098110",
+                  "Beruf": "Verkäuferin",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "5",
+                  "Firmenname": "Edeka Center Galwas",
+                  "Straße ": "Weserstr. 112",
+                  "PLZ": "27572",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Galwas",
+                  "Telefon": "0471 9690220",
+                  "Beruf": "Verkäufer ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "6",
+                  "Firmenname": "F.W. Derkum Chem. Fabrik und Handelsg. mbh",
+                  "Straße ": "An der Packhalle IX/3",
+                  "PLZ": "27572",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Hagelstede",
+                  "Telefon": "0471 9744030",
+                  "Beruf": "Kaufleute für Büromanagement ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "7",
+                  "Firmenname": "Autohaus Lipperkamp GmbH",
+                  "Straße ": "Lipperkamp 29",
+                  "PLZ": "27580",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Eckstein\r\nHerr Schnelle",
+                  "Telefon": "0471 85051",
+                  "Beruf": "Kfz- Mechatroniker ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "8",
+                  "Firmenname": "Lehrmann und Bergel GbR",
+                  "Straße ": "Kurt-Schumacher-Str. 8",
+                  "PLZ": "27578",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Lehmann",
+                  "Telefon": "0471 60466",
+                  "Beruf": "Kfz- Mechatroniker ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "9",
+                  "Firmenname": "Edeka Center Streubel",
+                  "Straße ": "Georg-Seebeck-Str. 56/58",
+                  "PLZ": "27570",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Streubel",
+                  "Telefon": "0471 9481190",
+                  "Beruf": "Verkäufer",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "10",
+                  "Firmenname": "Edeka Cord ",
+                  "Straße ": "Hans-Böckler-Str. 32B",
+                  "PLZ": "27578",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Cord",
+                  "Telefon": "0471 1428980",
+                  "Beruf": "Kaufleute im Einzelhandel ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "11",
+                  "Firmenname": "Thomas Philipps Bremerhaven",
+                  "Straße ": "Am Lunedeich 209",
+                  "PLZ": "27572",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Wolf",
+                  "Telefon": "0471 7004038",
+                  "Beruf": "Verkäuferin",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "12",
+                  "Firmenname": "Zweiradhaus Petersen",
+                  "Straße ": "Spadener Str. 101",
+                  "PLZ": "27578",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Oster",
+                  "Telefon": "0471 81028",
+                  "Beruf": "Zweiradmechatroniker",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "13",
+                  "Firmenname": "Edeka Cord Hafenstr.",
+                  "Straße ": "Hafenstr. 58",
+                  "PLZ": "27574",
+                  "Ort": "Bremerhaven",
+                  "Telefon": "0471 95159570",
+                  "Beruf": "Verkäufer ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "14",
+                  "Firmenname": "Friseursalon The Hair port",
+                  "Straße ": "Georg-Seebeck-Str. 56/58",
+                  "PLZ": "27570",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Frau Neslioglu",
+                  "Telefon": "0471 96158883",
+                  "Beruf": "Friseurin ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "15",
+                  "Firmenname": "Friseursalon Waltraud Adden",
+                  "Straße ": "Hinrich-Schmalfeldt-Str. 14",
+                  "PLZ": "27576",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Frau Yücel",
+                  "Telefon": "0471 52715",
+                  "Beruf": "Friseurin ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "16",
+                  "Firmenname": "Gummi Hasenkrug Fahrzeugservice GmbH",
+                  "Straße ": "Feldstr. 24",
+                  "PLZ": "27574",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Sitterz",
+                  "Telefon": "0471 39090",
+                  "Beruf": "Kfz- Mechatroniker ",
+                  "Arbeitsbereiche": "Elektro"
+                },
+                {
+                  "ID": "17",
+                  "Firmenname": "Sanitär-Heizung-klima Vollmerding ",
+                  "Straße ": "Obere Bürger 59-69",
+                  "PLZ": "27568",
+                  "Ort": "Bremerhaven",
+                  "Ansprechpartner": "Herr Vollmerding ",
+                  "Telefon": "0471 80996080",
+                  "Beruf": "Anlagenmechaniker für SHK",
+                  "Arbeitsbereiche": "Elektro"
+                }
+        ];
+
+            function displayData(data) {
+                const tableBody = document.querySelector('#kontakte-tabelle tbody');
+                tableBody.innerHTML = '';
+
+
+                    data.forEach(item => {
+                      if(item.ID){
+                        const row = tableBody.insertRow();
+                            row.insertCell().textContent = item.ID || '';
+                            row.insertCell().textContent = item.Firmenname || '';
+                            row.insertCell().textContent = item["Straße "] || '';
+                            row.insertCell().textContent = item.PLZ || '';
+                            row.insertCell().textContent = item.Ort || '';
+                            row.insertCell().textContent = item.Ansprechpartner || '';
+                            row.insertCell().textContent = item.Telefon || '';
+                           row.insertCell().textContent = item.Branche || '';
+                            row.insertCell().textContent = item.Arbeitsbereiche || '';
+                            row.insertCell().textContent = item["Letzter Prakt"] || '';
+                            row.insertCell().textContent = item.Bemerkung || '';
+                    }
+
+                    });
+            }
+              displayData(combinedData);
+
+             document.getElementById('branche-filter').addEventListener('change', function() {
+              const selectedBranche = this.value;
+              let filteredData = [...combinedData];
+
+
+            if (selectedBranche !== 'alle') {
+                 filteredData = combinedData.filter(item => {
+                    if (selectedBranche === 'Metall' && item.Arbeitsbereiche === 'Metall') return true;
+                    if(selectedBranche === 'Elektro' && item.Arbeitsbereiche === 'Elektro') return true;
+                    return false;
+                  });
+                }
+
+            displayData(filteredData)
+
+            });
+
+    </script>
+
+</body>
+</html>
